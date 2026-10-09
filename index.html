@@ -8,6 +8,13 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Anton&family=Oswald:wght@400&display=swap" rel="stylesheet">
 <style>
+@font-face {
+  font-family: 'StravaMetro';
+  src: url('./StravaMetro.woff2') format('woff2');
+  font-weight: 700 800;
+  font-style: normal;
+}
+
 :root{--bg:#08080A;--card:#101011;--card-hover:#171718;--border:rgba(255,255,255,0.08);--border-strong:rgba(255,255,255,0.14);--text:#EDEDED;--muted:#9F9FA9;--lime:#D6FF57;--lime-soft:rgba(214,255,87,0.14)}
 .light{--bg:#F6F6F5;--card:#FFFFFF;--card-hover:#F4F4F5;--border:#E8E8E3;--border-strong:#D4D4D0;--text:#111113;--muted:#78787C;--lime:#65A30D;--lime-soft:rgba(101,163,13,0.14)}
 *{font-family:Inter,system-ui,sans-serif} .mono{font-family:"JetBrains Mono",monospace}
@@ -86,6 +93,7 @@ body{background:var(--bg);color:var(--text)}
     <select id="shS" class="input h-8" onchange="shDraw()"></select>
     <div id="shW" class="chk rounded-xl p-2 flex justify-center"><canvas id="shC" style="max-width:100%;max-height:38vh"></canvas></div>
     <div class="flex items-center justify-between text-[10px] opacity-70"><span>Latar preview (nggak ikut ke file)</span><button class="btn !py-1" onclick="shBg()"><span id="shBgL">Kotak-kotak</span></button></div>
+    <div><div class="text-[9px] uppercase tracking-widest opacity-50 font-semibold mb-1">Template</div><div class="grid grid-cols-2 gap-2"><button class="btn on" data-g="tpl" data-v="poster" onclick="shSet('tpl','poster')">Poster (Anton)</button><button class="btn" data-g="tpl" data-v="strava" onclick="shSet('tpl','strava')">Grid (gaya Strava)</button></div></div>
     <div><div class="text-[9px] uppercase tracking-widest opacity-50 font-semibold mb-1">Gaya</div><div class="grid grid-cols-2 gap-2"><button class="btn on" data-g="st" data-v="white" onclick="shSet('st','white')">Putih</button><button class="btn" data-g="st" data-v="black" onclick="shSet('st','black')">Hitam</button><button class="btn" data-g="st" data-v="wob" onclick="shSet('st','wob')">Putih • outline hitam</button><button class="btn" data-g="st" data-v="bow" onclick="shSet('st','bow')">Hitam • outline putih</button></div></div>
     <div><div class="text-[9px] uppercase tracking-widest opacity-50 font-semibold mb-1">Ekspor</div><div class="grid grid-cols-2 gap-2"><button class="btn on" data-g="mode" data-v="tight" onclick="shSet('mode','tight')">Potong presisi</button><button class="btn" data-g="mode" data-v="full" onclick="shSet('mode','full')">Full portrait 9:16</button></div></div>
     <div id="shYW" class="hidden"><div class="flex justify-between text-[10px] opacity-70 mb-1"><span>Posisi (jarak dari bawah)</span><span id="shYL">440 px</span></div><input id="shY" type="range" min="300" max="700" step="10" value="440" class="w-full" oninput="shDraw()"></div>
@@ -114,15 +122,27 @@ function show(){ const on=!!S.token; $('login').classList.toggle('hidden', on); 
 function logout(){ S.token=''; S.role=''; try{ localStorage.removeItem('tk'); localStorage.removeItem('rl'); }catch(e){} show(); }
 async function load(){ $('msg').textContent='Memuat…'; try{ const j=await api('list'); S.rows=j.data.filter(r=>r['Tanggal']).map(fromRow); S.rows.forEach((r,i)=>r.no=i+1); $('msg').textContent=''; fillMonths(); render(); }catch(e){ $('msg').textContent=e.message; } }
 function filtered(){ const df=$('fd').value, tf=$('ft').value, n=new Date(); const sw=new Date(n.getFullYear(), n.getMonth(), n.getDate() - ((n.getDay()+6)%7)); sw.setHours(0,0,0,0); const slw=new Date(sw); slw.setDate(sw.getDate()-7); const lm=new Date(n.getFullYear(), n.getMonth()-1,1); return S.rows.filter(r=>{ const j=num(r.jarak); if((df==='lt_49'&&!(j<4.9))||(df==='5k'&&!(j>=4.9&&j<=5.5))||(df==='mid'&&!(j>5.5&&j<=10))||(df==='gt10'&&!(j>10))) return false; const d=r.d; if(tf==='all') return true; if(!d) return false; if(tf.startsWith('m:')){ const p=tf.slice(2).split('-'); return d.getFullYear()===+p[0]&&d.getMonth()===+p[1]-1; } if(tf==='this_week') return d>=sw; if(tf==='last_week') return d>=slw&&d<sw; if(tf==='this_month') return d.getFullYear()===n.getFullYear()&&d.getMonth()===n.getMonth(); if(tf==='last_month') return d.getFullYear()===lm.getFullYear()&&d.getMonth()===lm.getMonth(); if(tf==='this_year') return d.getFullYear()===n.getFullYear(); if(tf==='last_year') return d.getFullYear()===n.getFullYear()-1; return true; }); }
-function fillMonths(){ const g=$('ftm'); if(!g) return; const cur=$('ft').value; const ks=[...new Set(S.rows.filter(r=>r.d).map(r=>r.d.getFullYear()+'-'+String(r.d.getMonth()+1).padStart(2,'0')))].sort().reverse(); g.innerHTML=ks.map(k=>`<option value="m:${k}">${MID[+k.slice(5)-1]} ${k.slice(0,4)}</option>`).join(''); $('ft').value=cur; if($('ft').value!==cur) $('ft').value='all'; }
+function fillMonths(){ const g=$('ftm'); if(!g) return; const cur=$('ft').value; const ks=[...new Set(S.rows.filter(r=>r.d).map(r=>r.d.getFullYear()+'-'+String(r.d.getMonth()+1).padStart(2,'0')))].sort().reverse(); g.innerHTML=ks.map(k=>`<option value="m:${k}">${MID[+k.slice(5)-1]} ${k.slice(0,4)}</option>`).join(''); $('ft').value=cur; if($('ft').value!==cur)$('ft').value='all'; }
 function streak(){ const ds=new Set(S.rows.filter(r=>r.d).map(r=>+r.d)); const t=new Date(); let c=new Date(t.getFullYear(), t.getMonth(), t.getDate()); if(!ds.has(+c)){ c.setDate(c.getDate()-1); if(!ds.has(+c)) return 0; } let n=0; while(ds.has(+c)){ n++; c.setDate(c.getDate()-1);} return n; }
 function setTarget(){ if(S.role!=='admin') return; const v=parseFloat(prompt('Target bulanan (km)', S.target)); if(isNaN(v)||v<0) return; S.target=v; try{ localStorage.setItem('tgt', v);}catch(e){} render(); }
 function sortBy(k){ S.sort={k, dir:S.sort.k===k?-S.sort.dir:1}; renderTable(); }
 function catInfo(k){ const s=(k||'').toLowerCase(); if(s.includes('pb')) return {dot:'linear-gradient(135deg,#FDE68A,#F59E0B)', bg:'rgba(251,191,36,.15)', text:'#FBBF24', border:'rgba(251,191,36,.25)', label:'PB'}; if(s.includes('interval')) return {dot:'linear-gradient(135deg,#D6FF57,#84CC16)', bg:'rgba(214,255,87,.14)', text:'#A3E635', border:'rgba(214,255,87,.2)', label:k}; if(s.includes('easy')) return {dot:'#10B981', bg:'rgba(16,185,129,.1)', text:'#10B981', border:'rgba(16,185,129,.18)', label:k}; if(s.includes('long')) return {dot:'#3B82F6', bg:'rgba(59,130,246,.1)', text:'#3B82F6', border:'rgba(59,130,246,.18)', label:k}; if(s.includes('tempo')) return {dot:'#8B5CF6', bg:'rgba(139,92,246,.1)', text:'#8B5CF6', border:'rgba(139,92,246,.18)', label:k}; if(s.includes('fast')) return {dot:'#F97316', bg:'rgba(249,115,22,.1)', text:'#F97316', border:'rgba(249,115,22,.18)', label:k}; return {dot:'var(--muted)', bg:'var(--card)', text:'var(--muted)', border:'var(--border)', label:k||'Lainnya'}; }
+
 // ===== Gambar story (PNG transparan) =====
-const G = {st:'white', mode:'tight', bg:0, fonts:null};
+const G = {st:'white', tpl:'poster', mode:'tight', bg:0, fonts:null};
 const SH_ST = {white:['#FFFFFF',null], black:['#000000',null], wob:['#FFFFFF','#000000'], bow:['#000000','#FFFFFF']};
-function shFonts() { if (!G.fonts) G.fonts = Promise.all(['400 100px Anton','400 30px Oswald'].map(f => document.fonts.load(f))).catch(() => {}); return G.fonts; }
+
+function shFonts() { 
+  if (!G.fonts) G.fonts = Promise.all([
+    '400 100px Anton',
+    '400 30px Oswald',
+    '500 30px Inter',
+    '700 40px Inter',
+    '800 40px StravaMetro'
+  ].map(f => document.fonts.load(f))).catch(() => {}); 
+  return G.fonts; 
+}
+
 function openShare(id) {
   const rows = [...S.rows].sort((a, b) => (+b.d || 0) - (+a.d || 0) || b.no - a.no);
   if (!rows.length) return alert('Belum ada data sesi');
@@ -130,28 +150,47 @@ function openShare(id) {
   if (id) $('shS').value = id;
   $('shM').classList.remove('hidden'); shSet('mode', G.mode);
 }
+
 function shSet(k, v) {
   G[k] = v;
   document.querySelectorAll('[data-g="' + k + '"]').forEach(b => b.classList.toggle('on', b.dataset.v === v));
   $('shYW').classList.toggle('hidden', G.mode !== 'full');
   shDraw();
 }
+
 function shBg() { G.bg = (G.bg + 1) % 3; $('shBgL').textContent = ['Kotak-kotak', 'Gelap', 'Terang'][G.bg]; shPv(); }
 function shPv() { const w = $('shW'); w.classList.toggle('chk', G.bg === 0); w.style.backgroundColor = ['', '#161616', '#f1f1f1'][G.bg]; }
+
 async function shDraw() {
   await shFonts();
   const r = S.rows.find(x => x.id === $('shS').value); if (!r) return;
-  $('shYL').textContent = $('shY').value + ' px';
+  $('shYL').textContent =$('shY').value + ' px';
   shRender($('shC'), r, G.st, G.mode, +$('shY').value); shPv();
 }
-function shRender(cv, r, st, mode, bot) {
-  const [fill, line] = SH_ST[st], L = 90, MAXW = 840, ctx = cv.getContext('2d');
-  // A = Anton (judul & angka), O = Oswald regular (baris info kecil, nggak bold)
-  const FAM = {A: 'Anton, Impact, "Arial Narrow Bold", sans-serif', O: 'Oswald, "Arial Narrow", sans-serif'};
-  const F = (f, s) => `400 ${s}px ${FAM[f]}`;
-  const meas = (t, f, s) => { ctx.font = F(f, s); return ctx.measureText(t).width; };
-  // ukuran huruf dihitung dari TINGGI huruf kapital target, jadi proporsinya sama apa pun fontnya
-  const capR = f => { ctx.font = F(f, 100); return (ctx.measureText('H').actualBoundingBoxAscent / 100) || .72; };
+
+// A = Anton, O = Oswald regular, I = Inter, S = StravaMetro
+const FAM = {
+  A: 'Anton, Impact, "Arial Narrow Bold", sans-serif', 
+  O: 'Oswald, "Arial Narrow", sans-serif', 
+  I: 'Inter, system-ui, sans-serif',
+  S: '"StravaMetro", Inter, sans-serif'
+};
+
+const shF = (f, s) => {
+  if (f === 'S7') return `700 ${s}px ${FAM.S}`;
+  if (f === 'S8') return `800 ${s}px ${FAM.S}`;
+  if (f[0] === 'I') return `${f.slice(1)}00 ${s}px ${FAM.I}`;
+  return `400 ${s}px ${FAM[f]}`;
+};
+
+const shM = ctx => ({
+  meas: (t, f, s) => { ctx.font = shF(f, s); return ctx.measureText(t).width; },
+  capR: f => { ctx.font = shF(f, 100); return (ctx.measureText('H').actualBoundingBoxAscent / 100) || .72; }
+});
+const MAXW = 840;
+
+function shPoster(ctx, r) {
+  const {meas, capR} = shM(ctx);
   const sizeFor = (t, f, capT) => { let s = capT / capR(f); while (s > 12 && meas(t, f, s) > MAXW) s -= 2; return s; };
   const wrap = (txt, f, s, max) => {
     const out = []; let cur = '';
@@ -162,7 +201,7 @@ function shRender(cv, r, st, mode, bot) {
   };
   const stat = [fT(r.waktu), r.pace ? r.pace + '/km' : '', num(r.hr) ? Math.round(num(r.hr)) + ' bpm' : ''].filter(Boolean).join(' • ');
   const extra = [num(r.cadence) ? 'CAD ' + Math.round(num(r.cadence)) : '', num(r.vo2) ? 'VO2 ' + num(r.vo2) : '', num(r.stride) ? 'STR ' + Math.round(num(r.stride)) : '', String(r.catatan || '').trim()].filter(Boolean).join(' •\u00A0');
-  // [teks, font, tinggi huruf kapital (px), jarak dari baseline baris sebelumnya ke puncak huruf baris ini]
+  
   const spec = [['Run • ' + (r.tanggal || ''), 'A', 54, 0]];
   if (r.kategori) spec.push([String(r.kategori), 'A', 46, 24]);
   spec.push([String(r.jarak).replace(',', '.') + ' km', 'A', 215, 40]);
@@ -171,21 +210,65 @@ function shRender(cv, r, st, mode, bot) {
   let yb = 0, mw = 0, lastS = 0; const lay = [];
   spec.forEach(([t, f, capT, before], i) => {
     const s = f === 'O' ? 26 / capR('O') : sizeFor(t, f, capT), c = s * capR(f);
-    yb = i ? yb + before + c : c; lastS = s; mw = Math.max(mw, meas(t, f, s)); lay.push({t, f, s, yb});
+    yb = i ? yb + before + c : c; lastS = s; mw = Math.max(mw, meas(t, f, s)); lay.push({t, f, s, yb, x: 0});
   });
-  const H = Math.round(yb + lastS * .28), pad = 40 + (line ? 16 : 0);
+  return {lay, mw, H: Math.round(yb + lastS * .28)};
+}
+
+// Template grid ala Strava dengan font StravaMetro
+function shStrava(ctx, r) {
+  const {meas, capR} = shM(ctx), COLW = 280, w = sec(r.waktu);
+  const dur = w >= 1e9 ? fT(r.waktu) : w >= 3600
+    ? `${Math.floor(w / 3600)}h ${String(Math.floor(w % 3600 / 60)).padStart(2, '0')}m ${String(w % 60).padStart(2, '0')}s`
+    : `${Math.floor(w / 60)}m ${String(w % 60).padStart(2, '0')}s`;
+  
+  const cells = [
+    ['Distance', String(r.jarak).replace(',', '.') + ' km'],
+    ['Pace', r.pace ? r.pace + ' /km' : '—'],
+    ['Cadence', num(r.cadence) ? Math.round(num(r.cadence)) + ' spm' : '—'],
+    ['Time', dur],
+    ['Stride', num(r.stride) ? Math.round(num(r.stride)) + ' cm' : '—'],
+    ['Avg HR', num(r.hr) ? Math.round(num(r.hr)) + ' bpm' : '—']
+  ];
+
+  const cr = capR('S8'); 
+  let vs = 46 / cr;
+  while (vs > 20 && Math.max(...cells.map(c => meas(c[1], 'S8', vs))) > COLW - 28) vs -= 2;
+  
+  const vcap = vs * cr, ls = 22 / capR('S7'), lay = [];
+  let yb = 40; 
+  
+  lay.push({t: 'LOG RUN', f: 'S8', s: 40 / cr, x: 0, yb});
+  yb += 14 + 24; 
+  lay.push({t: r.tanggal || '', f: 'S7', s: 22 / capR('S7'), x: 0, yb});
+
+  for (let row = 0; row < 2; row++) {
+    yb += (row ? 44 : 60) + 22; const yl = yb;
+    yb += 14 + vcap; const yv = yb;
+    cells.slice(row * 3, row * 3 + 3).forEach((c, i) => { 
+      lay.push({t: c[0], f: 'S7', s: ls, x: i * COLW, yb: yl}); 
+      lay.push({t: c[1], f: 'S8', s: vs, x: i * COLW, yb: yv}); 
+    });
+  }
+  return {lay, mw: Math.max(...lay.map(o => o.x + meas(o.t, o.f, o.s))), H: Math.round(yb + vs * .22)};
+}
+
+function shRender(cv, r, st, mode, bot) {
+  const ctx = cv.getContext('2d'), m = G.tpl === 'strava' ? shStrava(ctx, r) : shPoster(ctx, r);
+  const [fill, line] = SH_ST[st], pad = 40 + (line ? 16 : 0);
   let cw, ch, x0, y0;
-  if (mode === 'full') { cw = 1080; ch = 1920; x0 = L; y0 = ch - bot - H; } else { cw = Math.ceil(mw + pad * 2); ch = H + pad * 2; x0 = pad; y0 = pad; }
+  if (mode === 'full') { cw = 1080; ch = 1920; x0 = 90; y0 = ch - bot - m.H; } else { cw = Math.ceil(m.mw + pad * 2); ch = m.H + pad * 2; x0 = pad; y0 = pad; }
   cv.width = cw; cv.height = ch;
   ctx.clearRect(0, 0, cw, ch); ctx.textBaseline = 'alphabetic'; ctx.lineJoin = 'round';
-  for (const o of lay) {
-    ctx.font = F(o.f, o.s);
-    if (line) { ctx.lineWidth = Math.max(3, Math.min(o.s * .1, 16)); ctx.strokeStyle = line; ctx.strokeText(o.t, x0, y0 + o.yb); }
-    ctx.fillStyle = fill; ctx.fillText(o.t, x0, y0 + o.yb);
+  for (const o of m.lay) {
+    ctx.font = shF(o.f, o.s);
+    if (line) { ctx.lineWidth = Math.max(3, Math.min(o.s * .1, 16)); ctx.strokeStyle = line; ctx.strokeText(o.t, x0 + o.x, y0 + o.yb); }
+    ctx.fillStyle = fill; ctx.fillText(o.t, x0 + o.x, y0 + o.yb);
   }
 }
+
 const shBlob = () => new Promise(res => $('shC').toBlob(res, 'image/png'));
-function shName() { const r = S.rows.find(x => x.id === $('shS').value); return 'log-run-' + String((r && r.tanggal) || 'sesi').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.png'; }
+function shName() { const r = S.rows.find(x => x.id === $('shS').value); return 'log-run-' + String((r && r.tanggal) \vert{}\vert{} 'sesi').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-\vert{}-$/g, '') + '.png'; }
 async function shDl() { const b = await shBlob(), a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = shName(); document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
 async function shShare() {
   const b = await shBlob(), f = new File([b], shName(), {type: 'image/png'});
@@ -200,11 +283,12 @@ function renderTable(){
   let a=[...S.f].reverse();
   if(S.sort.k){ const kf={tanggal:r=>+r.d||0, jarak:r=>num(r.jarak), pace:r=>sec(r.pace)}[S.sort.k]; a.sort((x,y)=>(kf(x)-kf(y))*S.sort.dir); }
   if(q) a=a.filter(r=>[r.tanggal,r.kategori,r.jarak,r.waktu,r.pace,r.catatan].join(' ').toLowerCase().includes(q));
-  // desktop
+  
   $('tb').innerHTML = a.map(r=>{ const ci=catInfo(r.kategori); return `<tr class="border-t hover:bg-[var(--card-hover)] transition-colors" style="border-color:var(--border)"><td class="p-2 mono font-medium cursor-pointer underline decoration-dotted underline-offset-2" onclick="openShare('${esc(r.id)}')">${esc(r.tanggal)}</td><td class="p-2"><span class="badge" style="background:${ci.bg};color:${ci.text};border-color:${ci.border}"><span style="width:6px;height:6px;border-radius:999px;background:${ci.dot};display:inline-block"></span>${esc(ci.label)}</span></td><td class="p-2 mono font-semibold">${esc(r.jarak)} km</td><td class="p-2 mono">${esc(fT(r.waktu))}</td><td class="p-2 mono">${esc(r.pace)}</td><td class="p-2 mono opacity-70">${num(r.hr)||'-'}</td><td class="p-2 mono opacity-70">${num(r.cadence)||'-'}</td><td class="p-2 mono">${num(r.vo2)||'-'}</td><td class="p-2 max-w-[160px] truncate opacity-60" title="${esc(r.catatan)}">${esc(r.catatan)||'-'}</td>${adm?`<td class="p-2"><button class="btn-icon !w-6 !h-6" onclick="openForm('${esc(r.id)}')">✎</button> <button class="btn-icon !w-6 !h-6" onclick="del('${esc(r.id)}')">✕</button></td>`:''}</tr>`; }).join('');
-  // mobile cards - expanded with cadence, vo2, stride, catatan to fill space
+  
   const cardsEl=$('tbCards'); if(cardsEl){ cardsEl.innerHTML = a.map(r=>{ const ci=catInfo(r.kategori); const cad=num(r.cadence); const vo2=num(r.vo2); const str=num(r.stride); const note=(r.catatan||'').trim(); return `<div class="card p-2.5 space-y-1.5"><div class="flex items-center justify-between"><div class="flex items-center gap-2"><span class="text-[11px] font-medium mono cursor-pointer underline decoration-dotted underline-offset-2" onclick="openShare('${esc(r.id)}')">${esc(r.tanggal)}</span><span class="badge !text-[9px]" style="background:${ci.bg};color:${ci.text};border-color:${ci.border}"><span style="width:5px;height:5px;border-radius:999px;background:${ci.dot};display:inline-block"></span>${esc(ci.label)}</span></div><span class="text-[12px] font-bold mono">${esc(r.jarak)} km</span></div><div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] mono opacity-70 leading-tight"><span>${esc(fT(r.waktu))}</span><span class="opacity-30">•</span><span>${esc(r.pace)}/km</span><span class="opacity-30">•</span><span>HR ${num(r.hr)||'-'}</span>${cad?`<span class="opacity-30">•</span><span>CAD ${cad}</span>`:''}${vo2?`<span class="opacity-30">•</span><span>VO2 ${vo2}</span>`:''}${str?`<span class="opacity-30">•</span><span>STR ${str}</span>`:''}${note?`<span class="opacity-30">•</span><span class="opacity-90 truncate max-w-[120px]">${esc(note)}</span>`:''}</div>${adm?`<div class="flex gap-1 justify-end pt-1"><button class="btn !h-6 !text-[10px]" onclick="openForm('${esc(r.id)}')">Edit</button><button class="btn !h-6 !text-[10px]" onclick="del('${esc(r.id)}')">Hapus</button></div>`:''}</div>`; }).join('') || '<div class="text-center p-4 opacity-40 text-[11px]">Belum ada aktivitas</div>'; }
 }
+
 function render(){
   const f=filtered(); S.f=f;
   const avg=k=>{ const v=f.map(r=>num(r[k])).filter(x=>x>0); return v.length?(v.reduce((a,b)=>a+b)/v.length).toFixed(1):'0'; };
@@ -238,15 +322,17 @@ function render(){
   const ag={}; S.rows.forEach(r=>{ if(r.d){ const k=r.d.getFullYear()+'-'+String(r.d.getMonth()+1).padStart(2,'0'); ag[k]=(ag[k]||0)+num(r.jarak); } }); const ks=Object.keys(ag).sort();
   S.charts=[ line('c1', f.map(r=>num(r.jarak)), '#84CC16'), line('c2', f.map(r=>sec(r.pace)/60), '#06B6D4', true), line('c3', f.map(r=>num(r.hr)), '#F59E0B'), line('c4', f.map(r=>num(r.cadence)), '#8B5CF6'), new Chart($('c5'),{type:'bar',data:{labels:ks.map(k=>MID[+k.slice(5)-1]+' '+k.slice(0,4)),datasets:[{data:ks.map(k=>+ag[k].toFixed(1)),backgroundColor:'#84CC16',borderRadius:6,barThickness:14}]},options:{...base,scales:{x:ax,y:ax}}}) ];
 }
-function openForm(id, pre){ S.editId=id||null; const r=id?S.rows.find(x=>x.id===id):(pre||{}); const n=new Date(); $('mt').textContent=id?'Edit data':'Tambah data'; $('ff').innerHTML=F.map(([k,l])=>`<div class="${k==='catatan'?'col-span-2':''}"><label class="text-[9px] uppercase opacity-50 font-semibold">${l}</label><input id="f_${k}" class="input h-8 mt-1" value="${esc(r[k]??(k==='tanggal'?n.getDate()+' '+MID[n.getMonth()]+' '+n.getFullYear():''))}"></div>`).join('')+'<datalist id="kt"><option>Regular<option>Easy Run<option>Fast Run<option>Long Run<option>Tempo Run<option>Interval<option>PB 🏆</datalist>'; $('modal').classList.remove('hidden'); }
-async function save(){ const o={}; for(const k in H) o[k]=$('f_'+k).value.trim(); if(!o.tanggal||!o.jarak||!o.waktu||!o.pace) return alert('Tanggal, jarak, waktu, pace wajib'); $('sv').disabled=true; try{ if(S.editId) await api('update',{id:S.editId,row:toRow(o)}); else await api('add',{row:toRow(o)}); $('modal').classList.add('hidden'); await load(); }catch(e){ alert(e.message);} $('sv').disabled=false; }
+
+function openForm(id, pre){ S.editId=id||null; const r=id?S.rows.find(x=>x.id===id):(pre||{}); const n=new Date(); $('mt').textContent=id?'Edit data':'Tambah data';$('ff').innerHTML=F.map(([k,l])=>`<div class="${k==='catatan'?'col-span-2':''}"><label class="text-[9px] uppercase opacity-50 font-semibold">${l}</label><input id="f_${k}" class="input h-8 mt-1" value="${esc(r[k]??(k==='tanggal'?n.getDate()+' '+MID[n.getMonth()]+' '+n.getFullYear():''))}"></div>`).join('')+'<datalist id="kt"><option>Regular<option>Easy Run<option>Fast Run<option>Long Run<option>Tempo Run<option>Interval<option>PB 🏆</datalist>'; $('modal').classList.remove('hidden'); }
+async function save(){ const o={}; for(const k in H) o[k]=$('f_'+k).value.trim(); if(!o.tanggal\vert{}\vert{}!o.jarak\vert{}\vert{}!o.waktu\vert{}\vert{}!o.pace) return alert('Tanggal, jarak, waktu, pace wajib');$('sv').disabled=true; try{ if(S.editId) await api('update',{id:S.editId,row:toRow(o)}); else await api('add',{row:toRow(o)}); $('modal').classList.add('hidden'); await load(); }catch(e){ alert(e.message);}$('sv').disabled=false; }
 async function del(id){ if(!confirm('Hapus?')) return; try{ await api('delete',{id}); await load(); }catch(e){ alert(e.message);} }
 function auto(){ const k=$('kal').value.toLowerCase(), m=re=>(k.match(re)||[])[1]; const kt=[['pb','PB 🏆'],['interval','Interval'],['easy','Easy Run'],['long','Long Run'],['tempo','Tempo Run'],['fast','Fast Run']].find(([a])=>k.includes(a)); let tgl=m(/(\d{1,2}\s+[a-z]+(?:\s+\d{4})?)/); if(tgl){ tgl=tgl.replace(/\b[a-z]/g,c=>c.toUpperCase()); if(!/\d{4}/.test(tgl)) tgl+=' '+new Date().getFullYear(); } openForm(null,{tanggal:tgl,kategori:kt?kt[1]:'Regular',jarak:(m(/(\d+[.,]?\d*)\s*km/)||'5').replace(',','.'),waktu:m(/(\d+:\d+(?::\d+)?)/)||'30:00',pace:m(/pace\s*[:=]?\s*(\d+:\d+)/)||'6:30',hr:m(/hr\s*[:=]?\s*(\d+)/)||'',cadence:m(/(?:cadence|cad)\s*[:=]?\s*(\d+)/)||'',vo2:(m(/vo2\s*(?:max)?\s*[:=]?\s*(\d+[.,]?\d*)/)||'').replace(',','.'),stride:m(/stride\s*[:=]?\s*(\d+)/)||''}); }
 const dl=(name,txt,type)=>{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([txt],{type})); a.download=name; a.click(); };
 function expCsv(){ const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"'; const hd=['No','Tanggal','Kategori','Jarak (km)','Waktu','Pace','HR','Cadence','VO2 Max','Stride','Catatan']; dl('running_log_export.csv','\ufeff'+[hd.map(q).join(','),...S.rows.map(r=>[r.no,r.tanggal,r.kategori,r.jarak,r.waktu,r.pace,r.hr,r.cadence,r.vo2,r.stride,r.catatan].map(q).join(','))].join('\n'),'text/csv'); }
 function expJson(){ dl('running_log.json', JSON.stringify(S.rows.map(r=>({no:r.no,tanggal:r.tanggal,kategori:r.kategori,jarak:num(r.jarak),waktu:r.waktu,pace:r.pace,hr:num(r.hr)|0,cadence:num(r.cadence)|0,vo2:num(r.vo2),stride:num(r.stride)|0,catatan:r.catatan})),null,4),'application/json'); }
+
 (function(){ const saved=localStorage.getItem('theme')||'dark'; document.documentElement.classList.remove('dark','light'); document.documentElement.classList.add(saved); const btn=$('themeToggle'); if(btn){ btn.textContent=saved==='dark'?'☀️':'🌙'; btn.onclick=()=>{ const cur=document.documentElement.classList.contains('dark')?'dark':'light'; const next=cur==='dark'?'light':'dark'; document.documentElement.classList.remove('dark','light'); document.documentElement.classList.add(next); localStorage.setItem('theme',next); btn.textContent=next==='dark'?'☀️':'🌙'; setTimeout(render,50); }; } })();
-$('go').onclick=async()=>{ $('err').textContent=''; $('go').disabled=true; try{ const j=await api('login',{password:$('pw').value}); S.token=j.token; S.role=j.role; try{ localStorage.setItem('tk',S.token); localStorage.setItem('rl',S.role);}catch(e){} $('pw').value=''; show(); }catch(e){ $('err').textContent=e.message; } $('go').disabled=false; };
+$('go').onclick=async()=>{ $('err').textContent='';$('go').disabled=true; try{ const j=await api('login',{password:$('pw').value}); S.token=j.token; S.role=j.role; try{ localStorage.setItem('tk',S.token); localStorage.setItem('rl',S.role);}catch(e){}$('pw').value=''; show(); }catch(e){ $('err').textContent=e.message; }$('go').disabled=false; };
 $('pw').onkeydown=e=>e.key==='Enter'&&$('go').click(); $('fd').onchange=$('ft').onchange=render; show();
 </script>
 </body>
