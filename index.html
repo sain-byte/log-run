@@ -10,9 +10,10 @@
 <style>
 @font-face {
   font-family: 'StravaMetro';
-  src: url('https://raw.githubusercontent.com/sain-byte/log-run/main/StravaMetro.woff2') format('woff2');
+  src: url('https://cdn.jsdelivr.net/gh/sain-byte/log-run@main/StravaMetro.woff2') format('woff2');
   font-weight: 700 800;
   font-style: normal;
+  font-display: swap;
 }
 
 :root{--bg:#08080A;--card:#101011;--card-hover:#171718;--border:rgba(255,255,255,0.08);--border-strong:rgba(255,255,255,0.14);--text:#EDEDED;--muted:#9F9FA9;--lime:#D6FF57;--lime-soft:rgba(214,255,87,0.14)}
@@ -25,7 +26,7 @@ body{background:var(--bg);color:var(--text)}
 .btn{padding:6px 12px;border-radius:10px;font-size:11px;font-weight:600;border:1px solid var(--border);background:var(--card);cursor:pointer}
 .btn:hover{border-color:var(--border-strong)} .btn-lime{background:var(--lime);color:#08080A;border-color:var(--lime);font-weight:700}
 .btn-icon{width:32px;height:32px;border-radius:10px;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer}
-.icon-grad{width:28px;height:28px;border-radius:99px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#08080A;font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.1), inset 0 0 0 1px rgba(255,255,255,.08)}
+.icon-grad{width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#08080A;font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.1), inset 0 0 0 1px rgba(255,255,255,.08)}
 .badge{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:600;border:1px solid var(--border)}
 .glass{backdrop-filter:blur(16px);background:color-mix(in srgb,var(--card) 84%, transparent);border:1px solid var(--border)}
 .btn.on{border-color:var(--lime);background:var(--lime-soft)}
@@ -134,17 +135,7 @@ const SH_ST = {white:['#FFFFFF',null], black:['#000000',null], wob:['#FFFFFF','#
 
 function shFonts() { 
   if (!G.fonts) {
-    const list = [
-      '400 100px Anton',
-      '400 30px Oswald',
-      '500 30px Inter',
-      '700 40px Inter',
-      '800 40px StravaMetro'
-    ];
-    G.fonts = Promise.race([
-      Promise.all(list.map(f => document.fonts.load(f))),
-      new Promise(res => setTimeout(res, 1200))
-    ]).catch(() => {});
+    G.fonts = document.fonts.ready.catch(() => {});
   }
   return G.fonts; 
 }
