@@ -8,14 +8,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Anton&family=Oswald:wght@400&display=swap" rel="stylesheet">
 <style>
-@font-face {
-  font-family: 'StravaMetro';
-  src: url('https://cdn.jsdelivr.net/gh/sain-byte/log-run@main/StravaMetro.woff2') format('woff2');
-  font-weight: 700 800;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root{--bg:#08080A;--card:#101011;--card-hover:#171718;--border:rgba(255,255,255,0.08);--border-strong:rgba(255,255,255,0.14);--text:#EDEDED;--muted:#9F9FA9;--lime:#D6FF57;--lime-soft:rgba(214,255,87,0.14)}
 .light{--bg:#F6F6F5;--card:#FFFFFF;--card-hover:#F4F4F5;--border:#E8E8E3;--border-strong:#D4D4D0;--text:#111113;--muted:#78787C;--lime:#65A30D;--lime-soft:rgba(101,163,13,0.14)}
 *{font-family:Inter,system-ui,sans-serif} .mono{font-family:"JetBrains Mono",monospace}
@@ -36,24 +28,24 @@ body{background:var(--bg);color:var(--text)}
 <body>
 <div id="login" class="hidden min-h-screen flex items-center justify-center p-4">
   <div class="card max-w-[360px] w-full p-5 space-y-4">
-    <div class="flex items-center gap-2.5"><div class="w-8 h-8 rounded-[8px] bg-[var(--lime)] text-black flex items-center justify-center font-black text-[11px]">R5K∞</div><div><div class="text-[13px] font-bold">Log Run - Hussain</div><div class="text-[10px] opacity-50">Project 5K</div></div></div>
+    <div class="flex items-center gap-2.5"><div class="w-8 h-8 rounded-[8px] bg-[var(--lime)] text-black flex items-center justify-center font-black text-[11px]">R5K¬∞</div><div><div class="text-[13px] font-bold">Log Run - Hussain</div><div class="text-[10px] opacity-50">Project 5K</div></div></div>
     <div><h1 class="text-[18px] font-bold leading-none">Masuk</h1><p class="text-[11px] opacity-60 mt-1">Lanjutkan ke dashboard</p></div>
     <input id="pw" type="password" placeholder="Password" class="input">
     <p id="err" class="text-rose-500 text-[11px] min-h-[14px]"></p>
-    <button id="go" class="btn btn-lime w-full h-9">Masuk </button>
+    <button id="go" class="btn btn-lime w-full h-9">Masuk ‚Üí</button>
   </div>
 </div>
 
 <div id="app" class="hidden max-w-[1440px] mx-auto p-3 space-y-2.5">
   <div class="glass sticky top-3 z-20 rounded-xl px-3 h-12 flex items-center justify-between">
-    <div class="flex items-center gap-2.5 min-w-0"><div class="w-7 h-7 shrink-0 rounded-[8px] bg-[var(--lime)] text-black flex items-center justify-center font-black text-[10px]">R5K∞</div><div class="min-w-0"><div class="text-[13px] font-bold leading-tight truncate">Log Run - Hussain</div><div class="flex items-center gap-1.5"><span class="text-[9px] opacity-50 tracking-widest uppercase">Project 5K</span><span class="w-1 h-1 rounded-full bg-emerald-500 animate-pulse"></span><span id="role" class="shrink-0 text-[8px] px-1.5 py-0.5 rounded-full border border-[var(--border)] uppercase font-bold opacity-70">ó</span></div></div></div>
-    <div class="flex items-center gap-1"><button id="themeToggle" class="btn-icon"></button><div class="w-px h-4 bg-[var(--border)] mx-1 hidden md:block"></div><button class="btn-icon" onclick="expCsv()" title="CSV"></button><button class="btn-icon" onclick="expJson()" title="JSON"></button><button class="btn-icon" onclick="load()" title="Muat ulang"></button><button class="btn-icon" onclick="logout()"></button></div>
+    <div class="flex items-center gap-2.5 min-w-0"><div class="w-7 h-7 shrink-0 rounded-[8px] bg-[var(--lime)] text-black flex items-center justify-center font-black text-[10px]">R5K¬∞</div><div class="min-w-0"><div class="text-[13px] font-bold leading-tight truncate">Log Run - Hussain</div><div class="flex items-center gap-1.5"><span class="text-[9px] opacity-50 tracking-widest uppercase">Project 5K</span><span class="w-1 h-1 rounded-full bg-emerald-500 animate-pulse"></span><span id="role" class="shrink-0 text-[8px] px-1.5 py-0.5 rounded-full border border-[var(--border)] uppercase font-bold opacity-70">‚Äî</span></div></div></div>
+    <div class="flex items-center gap-1"><button id="themeToggle" class="btn-icon">üåó</button><div class="w-px h-4 bg-[var(--border)] mx-1 hidden md:block"></div><button class="btn-icon" onclick="expCsv()" title="CSV">‚óß</button><button class="btn-icon" onclick="expJson()" title="JSON">‚¨ì</button><button class="btn-icon" onclick="load()" title="Muat ulang">‚Üª</button><button class="btn-icon" onclick="logout()">‚Üí</button></div>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-[150px_170px_1fr] gap-2">
     <select id="fd" class="input h-8 text-[11px]"><option value="all">Semua jarak</option><option value="lt_49">< 4.9 km</option><option value="5k">5K (4.9-5.5)</option><option value="mid">5.5-10 km</option><option value="gt10">> 10 km</option></select>
     <select id="ft" class="input h-8 text-[11px]"><option value="all">Semua waktu</option><option value="this_week">Minggu ini</option><option value="last_week">Minggu lalu</option><option value="this_month">Bulan ini</option><option value="last_month">Bulan lalu</option><option value="this_year">Tahun ini</option><option value="last_year">Tahun kemarin</option><optgroup id="ftm" label="Per bulan"></optgroup></select>
-    <div class="flex gap-2"><input id="q" placeholder="Cari tanggal, kategori, catatanÖ" class="input h-8 text-[11px]" oninput="renderTable()"><button class="btn h-8 shrink-0 whitespace-nowrap" onclick="openShare()"> Story</button></div>
+    <div class="flex gap-2"><input id="q" placeholder="Cari tanggal, kategori, catatan‚Ä¶" class="input h-8 text-[11px]" oninput="renderTable()"><button class="btn h-8 shrink-0 whitespace-nowrap" onclick="openShare()">üñº Story</button></div>
   </div>
   <p id="msg" class="text-[11px] text-amber-400 min-h-[12px] px-1"></p>
   <div id="stats" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2"></div>
@@ -81,7 +73,7 @@ body{background:var(--bg);color:var(--text)}
   <div class="lg:hidden space-y-2" id="tbCards"></div>
 
   <div class="card p-2.5"><div class="text-[10px] font-bold tracking-widest uppercase opacity-50 mb-2">Riwayat PB</div><table class="w-full text-[11px] text-left"><thead class="text-[10px] uppercase opacity-50 border-b" style="border-color:var(--border)"><tr><th class="p-2">Tanggal</th><th class="p-2">Jarak</th><th class="p-2">Waktu</th><th class="p-2">Pace</th></tr></thead><tbody id="pbh"></tbody></table></div>
-  <div class="text-center py-2 text-[10px] opacity-30">© 2026 R5K∞ ï Project 5K</div>
+  <div class="text-center py-2 text-[10px] opacity-30">¬© 2026 R5K¬∞ ‚Ä¢ Project 5K</div>
 </div>
 
 <div id="modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 z-50">
@@ -90,12 +82,12 @@ body{background:var(--bg);color:var(--text)}
 
 <div id="shM" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center z-50" onclick="if(event.target===this)this.classList.add('hidden')">
   <div class="card w-full max-w-[520px] p-4 space-y-3 max-h-[92vh] overflow-auto rounded-b-none sm:rounded-b-[12px]">
-    <div class="flex items-center justify-between"><b class="text-[13px] font-bold"> Gambar story</b><button class="btn-icon" onclick="$('shM').classList.add('hidden')"></button></div>
+    <div class="flex items-center justify-between"><b class="text-[13px] font-bold">üñº Gambar story</b><button class="btn-icon" onclick="$('shM').classList.add('hidden')">‚úï</button></div>
     <select id="shS" class="input h-8" onchange="shDraw()"></select>
     <div id="shW" class="chk rounded-xl p-2 flex justify-center"><canvas id="shC" style="max-width:100%;max-height:38vh"></canvas></div>
     <div class="flex items-center justify-between text-[10px] opacity-70"><span>Latar preview (nggak ikut ke file)</span><button class="btn !py-1" onclick="shBg()"><span id="shBgL">Kotak-kotak</span></button></div>
     <div><div class="text-[9px] uppercase tracking-widest opacity-50 font-semibold mb-1">Template</div><div class="grid grid-cols-2 gap-2"><button class="btn on" data-g="tpl" data-v="poster" onclick="shSet('tpl','poster')">Poster (Anton)</button><button class="btn" data-g="tpl" data-v="strava" onclick="shSet('tpl','strava')">Grid (gaya Strava)</button></div></div>
-    <div><div class="text-[9px] uppercase tracking-widest opacity-50 font-semibold mb-1">Gaya</div><div class="grid grid-cols-2 gap-2"><button class="btn on" data-g="st" data-v="white" onclick="shSet('st','white')">Putih</button><button class="btn" data-g="st" data-v="black" onclick="shSet('st','black')">Hitam</button><button class="btn" data-g="st" data-v="wob" onclick="shSet('st','wob')">Putih ï outline hitam</button><button class="btn" data-g="st" data-v="bow" onclick="shSet('st','bow')">Hitam ï outline putih</button></div></div>
+    <div><div class="text-[9px] uppercase tracking-widest opacity-50 font-semibold mb-1">Gaya</div><div class="grid grid-cols-2 gap-2"><button class="btn on" data-g="st" data-v="white" onclick="shSet('st','white')">Putih</button><button class="btn" data-g="st" data-v="black" onclick="shSet('st','black')">Hitam</button><button class="btn" data-g="st" data-v="wob" onclick="shSet('st','wob')">Putih ‚Ä¢ outline hitam</button><button class="btn" data-g="st" data-v="bow" onclick="shSet('st','bow')">Hitam ‚Ä¢ outline putih</button></div></div>
     <div><div class="text-[9px] uppercase tracking-widest opacity-50 font-semibold mb-1">Ekspor</div><div class="grid grid-cols-2 gap-2"><button class="btn on" data-g="mode" data-v="tight" onclick="shSet('mode','tight')">Potong presisi</button><button class="btn" data-g="mode" data-v="full" onclick="shSet('mode','full')">Full portrait 9:16</button></div></div>
     <div id="shYW" class="hidden"><div class="flex justify-between text-[10px] opacity-70 mb-1"><span>Posisi (jarak dari bawah)</span><span id="shYL">440 px</span></div><input id="shY" type="range" min="300" max="700" step="10" value="440" class="w-full" oninput="shDraw()"></div>
     <div class="flex gap-2"><button class="btn flex-1" onclick="shDl()">Unduh PNG</button><button class="btn btn-lime flex-1" onclick="shShare()">Share</button></div>
@@ -121,67 +113,44 @@ const toRow = o => { const r={}; for(const k in H) r[H[k]]=String(o[k]??''); ret
 async function api(action, extra={}){ const r=await fetch(API,{method:'POST', body:JSON.stringify({action, token:S.token, ...extra})}); const j=await r.json(); if(j.error==='unauthorized'){ logout(); throw new Error('Sesi habis, login lagi'); } if(!j.ok) throw new Error(j.error||'gagal'); return j; }
 function show(){ const on=!!S.token; $('login').classList.toggle('hidden', on); $('app').classList.toggle('hidden', !on); if(on){ document.querySelectorAll('.adm').forEach(e=>e.classList.toggle('hidden', S.role!=='admin')); const roleEl=$('role'); if(roleEl){ roleEl.textContent=S.role; } load(); } }
 function logout(){ S.token=''; S.role=''; try{ localStorage.removeItem('tk'); localStorage.removeItem('rl'); }catch(e){} show(); }
-async function load(){ $('msg').textContent='MemuatÖ'; try{ const j=await api('list'); S.rows=j.data.filter(r=>r['Tanggal']).map(fromRow); S.rows.forEach((r,i)=>r.no=i+1); $('msg').textContent=''; fillMonths(); render(); }catch(e){ $('msg').textContent=e.message; } }
+async function load(){ $('msg').textContent='Memuat‚Ä¶'; try{ const j=await api('list'); S.rows=j.data.filter(r=>r['Tanggal']).map(fromRow); S.rows.forEach((r,i)=>r.no=i+1); $('msg').textContent=''; fillMonths(); render(); }catch(e){ $('msg').textContent=e.message; } }
 function filtered(){ const df=$('fd').value, tf=$('ft').value, n=new Date(); const sw=new Date(n.getFullYear(), n.getMonth(), n.getDate() - ((n.getDay()+6)%7)); sw.setHours(0,0,0,0); const slw=new Date(sw); slw.setDate(sw.getDate()-7); const lm=new Date(n.getFullYear(), n.getMonth()-1,1); return S.rows.filter(r=>{ const j=num(r.jarak); if((df==='lt_49'&&!(j<4.9))||(df==='5k'&&!(j>=4.9&&j<=5.5))||(df==='mid'&&!(j>5.5&&j<=10))||(df==='gt10'&&!(j>10))) return false; const d=r.d; if(tf==='all') return true; if(!d) return false; if(tf.startsWith('m:')){ const p=tf.slice(2).split('-'); return d.getFullYear()===+p[0]&&d.getMonth()===+p[1]-1; } if(tf==='this_week') return d>=sw; if(tf==='last_week') return d>=slw&&d<sw; if(tf==='this_month') return d.getFullYear()===n.getFullYear()&&d.getMonth()===n.getMonth(); if(tf==='last_month') return d.getFullYear()===lm.getFullYear()&&d.getMonth()===lm.getMonth(); if(tf==='this_year') return d.getFullYear()===n.getFullYear(); if(tf==='last_year') return d.getFullYear()===n.getFullYear()-1; return true; }); }
-function fillMonths(){ const g=$('ftm'); if(!g) return; const cur=$('ft').value; const ks=[...new Set(S.rows.filter(r=>r.d).map(r=>r.d.getFullYear()+'-'+String(r.d.getMonth()+1).padStart(2,'0')))].sort().reverse(); g.innerHTML=ks.map(k=>`<option value="m:${k}">${MID[+k.slice(5)-1]} ${k.slice(0,4)}</option>`).join(''); $('ft').value=cur; if($('ft').value!==cur)$('ft').value='all'; }
+function fillMonths(){ const g=$('ftm'); if(!g) return; const cur=$('ft').value; const ks=[...new Set(S.rows.filter(r=>r.d).map(r=>r.d.getFullYear()+'-'+String(r.d.getMonth()+1).padStart(2,'0')))].sort().reverse(); g.innerHTML=ks.map(k=>`<option value="m:${k}">${MID[+k.slice(5)-1]} ${k.slice(0,4)}</option>`).join(''); $('ft').value=cur; if($('ft').value!==cur) $('ft').value='all'; }
 function streak(){ const ds=new Set(S.rows.filter(r=>r.d).map(r=>+r.d)); const t=new Date(); let c=new Date(t.getFullYear(), t.getMonth(), t.getDate()); if(!ds.has(+c)){ c.setDate(c.getDate()-1); if(!ds.has(+c)) return 0; } let n=0; while(ds.has(+c)){ n++; c.setDate(c.getDate()-1);} return n; }
 function setTarget(){ if(S.role!=='admin') return; const v=parseFloat(prompt('Target bulanan (km)', S.target)); if(isNaN(v)||v<0) return; S.target=v; try{ localStorage.setItem('tgt', v);}catch(e){} render(); }
 function sortBy(k){ S.sort={k, dir:S.sort.k===k?-S.sort.dir:1}; renderTable(); }
 function catInfo(k){ const s=(k||'').toLowerCase(); if(s.includes('pb')) return {dot:'linear-gradient(135deg,#FDE68A,#F59E0B)', bg:'rgba(251,191,36,.15)', text:'#FBBF24', border:'rgba(251,191,36,.25)', label:'PB'}; if(s.includes('interval')) return {dot:'linear-gradient(135deg,#D6FF57,#84CC16)', bg:'rgba(214,255,87,.14)', text:'#A3E635', border:'rgba(214,255,87,.2)', label:k}; if(s.includes('easy')) return {dot:'#10B981', bg:'rgba(16,185,129,.1)', text:'#10B981', border:'rgba(16,185,129,.18)', label:k}; if(s.includes('long')) return {dot:'#3B82F6', bg:'rgba(59,130,246,.1)', text:'#3B82F6', border:'rgba(59,130,246,.18)', label:k}; if(s.includes('tempo')) return {dot:'#8B5CF6', bg:'rgba(139,92,246,.1)', text:'#8B5CF6', border:'rgba(139,92,246,.18)', label:k}; if(s.includes('fast')) return {dot:'#F97316', bg:'rgba(249,115,22,.1)', text:'#F97316', border:'rgba(249,115,22,.18)', label:k}; return {dot:'var(--muted)', bg:'var(--card)', text:'var(--muted)', border:'var(--border)', label:k||'Lainnya'}; }
-
 // ===== Gambar story (PNG transparan) =====
 const G = {st:'white', tpl:'poster', mode:'tight', bg:0, fonts:null};
 const SH_ST = {white:['#FFFFFF',null], black:['#000000',null], wob:['#FFFFFF','#000000'], bow:['#000000','#FFFFFF']};
-
-function shFonts() { 
-  if (!G.fonts) {
-    G.fonts = document.fonts.ready.catch(() => {});
-  }
-  return G.fonts; 
-}
-
+function shFonts() { if (!G.fonts) G.fonts = Promise.all(['400 100px Anton','400 30px Oswald','400 30px Inter','500 30px Inter','700 40px Inter'].map(f => document.fonts.load(f))).catch(() => {}); return G.fonts; }
 function openShare(id) {
   const rows = [...S.rows].sort((a, b) => (+b.d || 0) - (+a.d || 0) || b.no - a.no);
   if (!rows.length) return alert('Belum ada data sesi');
-  $('shS').innerHTML = rows.map(r => `<option value="${esc(r.id)}">${esc(r.tanggal)} ï ${esc(r.kategori)} ï ${esc(r.jarak)} km</option>`).join('');
+  $('shS').innerHTML = rows.map(r => `<option value="${esc(r.id)}">${esc(r.tanggal)} ‚Ä¢ ${esc(r.kategori)} ‚Ä¢ ${esc(r.jarak)} km</option>`).join('');
   if (id) $('shS').value = id;
   $('shM').classList.remove('hidden'); shSet('mode', G.mode);
 }
-
 function shSet(k, v) {
   G[k] = v;
   document.querySelectorAll('[data-g="' + k + '"]').forEach(b => b.classList.toggle('on', b.dataset.v === v));
   $('shYW').classList.toggle('hidden', G.mode !== 'full');
   shDraw();
 }
-
 function shBg() { G.bg = (G.bg + 1) % 3; $('shBgL').textContent = ['Kotak-kotak', 'Gelap', 'Terang'][G.bg]; shPv(); }
 function shPv() { const w = $('shW'); w.classList.toggle('chk', G.bg === 0); w.style.backgroundColor = ['', '#161616', '#f1f1f1'][G.bg]; }
-
 async function shDraw() {
   await shFonts();
   const r = S.rows.find(x => x.id === $('shS').value); if (!r) return;
-  $('shYL').textContent =$('shY').value + ' px';
+  $('shYL').textContent = $('shY').value + ' px';
   shRender($('shC'), r, G.st, G.mode, +$('shY').value); shPv();
 }
-
-// A = Anton, O = Oswald regular, I = Inter, S = StravaMetro
-const FAM = {
-  A: 'Anton, Impact, "Arial Narrow Bold", sans-serif', 
-  O: 'Oswald, "Arial Narrow", sans-serif', 
-  I: 'Inter, system-ui, sans-serif',
-  S: '"StravaMetro", Inter, sans-serif'
-};
-
-const shF = (f, s) => {
-  if (f === 'S7') return `700 ${s}px ${FAM.S}`;
-  if (f === 'S8') return `800 ${s}px ${FAM.S}`;
-  if (f[0] === 'I') return `${f.slice(1)}00 ${s}px ${FAM.I}`;
-  return `400 ${s}px ${FAM[f]}`;
-};
-
+// A = Anton, O = Oswald regular, I4/I5/I7 = Inter 400/500/700
+const FAM = {A: 'Anton, Impact, "Arial Narrow Bold", sans-serif', O: 'Oswald, "Arial Narrow", sans-serif', I: 'Inter, system-ui, sans-serif'};
+const shF = (f, s) => f[0] === 'I' ? `${f.slice(1)}00 ${s}px ${FAM.I}` : `400 ${s}px ${FAM[f]}`;
 const shM = ctx => ({
   meas: (t, f, s) => { ctx.font = shF(f, s); return ctx.measureText(t).width; },
+  // tinggi huruf kapital per 1px ukuran font, supaya proporsi sama apa pun fontnya
   capR: f => { ctx.font = shF(f, 100); return (ctx.measureText('H').actualBoundingBoxAscent / 100) || .72; }
 });
 const MAXW = 840;
@@ -193,13 +162,13 @@ function shPoster(ctx, r) {
     const out = []; let cur = '';
     for (const wd of String(txt).trim().split(/[ \t\n]+/).filter(Boolean)) { const t = cur ? cur + ' ' + wd : wd; if (meas(t, f, s) <= MAXW) cur = t; else { if (cur) out.push(cur); cur = wd; } }
     if (cur) out.push(cur);
-    if (out.length > max) { out.length = max; let l = out[max - 1]; while (l.length > 1 && meas(l + 'Ö', f, s) > MAXW) l = l.slice(0, -1); out[max - 1] = l.replace(/[\s,.;:-]+$/, '') + 'Ö'; }
+    if (out.length > max) { out.length = max; let l = out[max - 1]; while (l.length > 1 && meas(l + '‚Ä¶', f, s) > MAXW) l = l.slice(0, -1); out[max - 1] = l.replace(/[\s,.;:-]+$/, '') + '‚Ä¶'; }
     return out;
   };
-  const stat = [fT(r.waktu), r.pace ? r.pace + '/km' : '', num(r.hr) ? Math.round(num(r.hr)) + ' bpm' : ''].filter(Boolean).join(' ï ');
-  const extra = [num(r.cadence) ? 'CAD ' + Math.round(num(r.cadence)) : '', num(r.vo2) ? 'VO2 ' + num(r.vo2) : '', num(r.stride) ? 'STR ' + Math.round(num(r.stride)) : '', String(r.catatan || '').trim()].filter(Boolean).join(' ï\u00A0');
-  
-  const spec = [['Run ï ' + (r.tanggal || ''), 'A', 54, 0]];
+  const stat = [fT(r.waktu), r.pace ? r.pace + '/km' : '', num(r.hr) ? Math.round(num(r.hr)) + ' bpm' : ''].filter(Boolean).join(' ‚Ä¢ ');
+  const extra = [num(r.cadence) ? 'CAD ' + Math.round(num(r.cadence)) : '', num(r.vo2) ? 'VO2 ' + num(r.vo2) : '', num(r.stride) ? 'STR ' + Math.round(num(r.stride)) : '', String(r.catatan || '').trim()].filter(Boolean).join(' ‚Ä¢\u00A0');
+  // [teks, font, tinggi huruf kapital (px), jarak dari baseline baris sebelumnya ke puncak huruf baris ini]
+  const spec = [['Run ‚Ä¢ ' + (r.tanggal || ''), 'A', 54, 0]];
   if (r.kategori) spec.push([String(r.kategori), 'A', 46, 24]);
   spec.push([String(r.jarak).replace(',', '.') + ' km', 'A', 215, 40]);
   if (stat) spec.push([stat, 'A', 58, 56]);
@@ -212,40 +181,30 @@ function shPoster(ctx, r) {
   return {lay, mw, H: Math.round(yb + lastS * .28)};
 }
 
-// Template grid ala Strava dengan font StravaMetro
+// Template grid ala Strava: judul 1 baris, lalu 3 kolom x 2 baris (rapat, tipis, antar kolom berjarak)
 function shStrava(ctx, r) {
   const {meas, capR} = shM(ctx), COLW = 280, w = sec(r.waktu);
   const dur = w >= 1e9 ? fT(r.waktu) : w >= 3600
     ? `${Math.floor(w / 3600)}h ${String(Math.floor(w % 3600 / 60)).padStart(2, '0')}m ${String(w % 60).padStart(2, '0')}s`
     : `${Math.floor(w / 60)}m ${String(w % 60).padStart(2, '0')}s`;
-  
+  const d = r.d, tgl = d ? String(d.getDate()).padStart(2, '0') + ' ' + MID[d.getMonth()] + ' ' + String(d.getFullYear() % 100).padStart(2, '0') : (r.tanggal || '');
   const cells = [
     ['Distance', String(r.jarak).replace(',', '.') + ' km'],
-    ['Pace', r.pace ? r.pace + ' /km' : 'ó'],
-    ['Cadence', num(r.cadence) ? Math.round(num(r.cadence)) + ' spm' : 'ó'],
+    ['Pace', r.pace ? r.pace + ' /km' : '‚Äî'],
+    ['Cadence', num(r.cadence) ? Math.round(num(r.cadence)) + ' spm' : '‚Äî'],
     ['Time', dur],
-    ['Stride', num(r.stride) ? Math.round(num(r.stride)) + ' cm' : 'ó'],
-    ['Avg HR', num(r.hr) ? Math.round(num(r.hr)) + ' bpm' : 'ó']
+    ['Stride', num(r.stride) ? Math.round(num(r.stride)) + ' cm' : '‚Äî'],
+    ['Avg HR', num(r.hr) ? Math.round(num(r.hr)) + ' bpm' : '‚Äî']
   ];
-
-  const cr = capR('S8'); 
-  let vs = 46 / cr;
-  while (vs > 20 && Math.max(...cells.map(c => meas(c[1], 'S8', vs))) > COLW - 28) vs -= 2;
-  
-  const vcap = vs * cr, ls = 22 / capR('S7'), lay = [];
-  let yb = 40; 
-  
-  lay.push({t: 'LOG RUN', f: 'S8', s: 40 / cr, x: 0, yb});
-  yb += 14 + 24; 
-  lay.push({t: r.tanggal || '', f: 'S7', s: 22 / capR('S7'), x: 0, yb});
-
+  const cv = capR('I5'), cl = capR('I4');
+  let vs = 38 / cv;
+  while (vs > 18 && Math.max(...cells.map(c => meas(c[1], 'I5', vs))) > COLW - 60) vs -= 2;
+  const vcap = vs * cv, ls = 20 / cl, lay = [];
+  let yb = 36; lay.push({t: 'Run ‚Ä¢ ' + tgl, f: 'I5', s: 36 / cv, x: 0, yb});
   for (let row = 0; row < 2; row++) {
-    yb += (row ? 44 : 60) + 22; const yl = yb;
-    yb += 14 + vcap; const yv = yb;
-    cells.slice(row * 3, row * 3 + 3).forEach((c, i) => { 
-      lay.push({t: c[0], f: 'S7', s: ls, x: i * COLW, yb: yl}); 
-      lay.push({t: c[1], f: 'S8', s: vs, x: i * COLW, yb: yv}); 
-    });
+    yb += (row ? 36 : 44) + 20; const yl = yb;
+    yb += 12 + vcap; const yv = yb;
+    cells.slice(row * 3, row * 3 + 3).forEach((c, i) => { lay.push({t: c[0], f: 'I4', s: ls, x: i * COLW, yb: yl}); lay.push({t: c[1], f: 'I5', s: vs, x: i * COLW, yb: yv}); });
   }
   return {lay, mw: Math.max(...lay.map(o => o.x + meas(o.t, o.f, o.s))), H: Math.round(yb + vs * .22)};
 }
@@ -263,9 +222,8 @@ function shRender(cv, r, st, mode, bot) {
     ctx.fillStyle = fill; ctx.fillText(o.t, x0 + o.x, y0 + o.yb);
   }
 }
-
 const shBlob = () => new Promise(res => $('shC').toBlob(res, 'image/png'));
-function shName() { const r = S.rows.find(x => x.id === $('shS').value); return 'log-run-' + String((r && r.tanggal) \vert{}\vert{} 'sesi').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-\vert{}-$/g, '') + '.png'; }
+function shName() { const r = S.rows.find(x => x.id === $('shS').value); return 'log-run-' + String((r && r.tanggal) || 'sesi').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.png'; }
 async function shDl() { const b = await shBlob(), a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = shName(); document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
 async function shShare() {
   const b = await shBlob(), f = new File([b], shName(), {type: 'image/png'});
@@ -280,12 +238,11 @@ function renderTable(){
   let a=[...S.f].reverse();
   if(S.sort.k){ const kf={tanggal:r=>+r.d||0, jarak:r=>num(r.jarak), pace:r=>sec(r.pace)}[S.sort.k]; a.sort((x,y)=>(kf(x)-kf(y))*S.sort.dir); }
   if(q) a=a.filter(r=>[r.tanggal,r.kategori,r.jarak,r.waktu,r.pace,r.catatan].join(' ').toLowerCase().includes(q));
-  
-  $('tb').innerHTML = a.map(r=>{ const ci=catInfo(r.kategori); return `<tr class="border-t hover:bg-[var(--card-hover)] transition-colors" style="border-color:var(--border)"><td class="p-2 mono font-medium cursor-pointer underline decoration-dotted underline-offset-2" onclick="openShare('${esc(r.id)}')">${esc(r.tanggal)}</td><td class="p-2"><span class="badge" style="background:${ci.bg};color:${ci.text};border-color:${ci.border}"><span style="width:6px;height:6px;border-radius:999px;background:${ci.dot};display:inline-block"></span>${esc(ci.label)}</span></td><td class="p-2 mono font-semibold">${esc(r.jarak)} km</td><td class="p-2 mono">${esc(fT(r.waktu))}</td><td class="p-2 mono">${esc(r.pace)}</td><td class="p-2 mono opacity-70">${num(r.hr)||'-'}</td><td class="p-2 mono opacity-70">${num(r.cadence)||'-'}</td><td class="p-2 mono">${num(r.vo2)||'-'}</td><td class="p-2 max-w-[160px] truncate opacity-60" title="${esc(r.catatan)}">${esc(r.catatan)||'-'}</td>${adm?`<td class="p-2"><button class="btn-icon !w-6 !h-6" onclick="openForm('${esc(r.id)}')"></button> <button class="btn-icon !w-6 !h-6" onclick="del('${esc(r.id)}')"></button></td>`:''}</tr>`; }).join('');
-  
-  const cardsEl=$('tbCards'); if(cardsEl){ cardsEl.innerHTML = a.map(r=>{ const ci=catInfo(r.kategori); const cad=num(r.cadence); const vo2=num(r.vo2); const str=num(r.stride); const note=(r.catatan||'').trim(); return `<div class="card p-2.5 space-y-1.5"><div class="flex items-center justify-between"><div class="flex items-center gap-2"><span class="text-[11px] font-medium mono cursor-pointer underline decoration-dotted underline-offset-2" onclick="openShare('${esc(r.id)}')">${esc(r.tanggal)}</span><span class="badge !text-[9px]" style="background:${ci.bg};color:${ci.text};border-color:${ci.border}"><span style="width:5px;height:5px;border-radius:999px;background:${ci.dot};display:inline-block"></span>${esc(ci.label)}</span></div><span class="text-[12px] font-bold mono">${esc(r.jarak)} km</span></div><div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] mono opacity-70 leading-tight"><span>${esc(fT(r.waktu))}</span><span class="opacity-30">ï</span><span>${esc(r.pace)}/km</span><span class="opacity-30">ï</span><span>HR ${num(r.hr)||'-'}</span>${cad?`<span class="opacity-30">ï</span><span>CAD ${cad}</span>`:''}${vo2?`<span class="opacity-30">ï</span><span>VO2 ${vo2}</span>`:''}${str?`<span class="opacity-30">ï</span><span>STR ${str}</span>`:''}${note?`<span class="opacity-30">ï</span><span class="opacity-90 truncate max-w-[120px]">${esc(note)}</span>`:''}</div>${adm?`<div class="flex gap-1 justify-end pt-1"><button class="btn !h-6 !text-[10px]" onclick="openForm('${esc(r.id)}')">Edit</button><button class="btn !h-6 !text-[10px]" onclick="del('${esc(r.id)}')">Hapus</button></div>`:''}</div>`; }).join('') || '<div class="text-center p-4 opacity-40 text-[11px]">Belum ada aktivitas</div>'; }
+  // desktop
+  $('tb').innerHTML = a.map(r=>{ const ci=catInfo(r.kategori); return `<tr class="border-t hover:bg-[var(--card-hover)] transition-colors" style="border-color:var(--border)"><td class="p-2 mono font-medium cursor-pointer underline decoration-dotted underline-offset-2" onclick="openShare('${esc(r.id)}')">${esc(r.tanggal)}</td><td class="p-2"><span class="badge" style="background:${ci.bg};color:${ci.text};border-color:${ci.border}"><span style="width:6px;height:6px;border-radius:999px;background:${ci.dot};display:inline-block"></span>${esc(ci.label)}</span></td><td class="p-2 mono font-semibold">${esc(r.jarak)} km</td><td class="p-2 mono">${esc(fT(r.waktu))}</td><td class="p-2 mono">${esc(r.pace)}</td><td class="p-2 mono opacity-70">${num(r.hr)||'-'}</td><td class="p-2 mono opacity-70">${num(r.cadence)||'-'}</td><td class="p-2 mono">${num(r.vo2)||'-'}</td><td class="p-2 max-w-[160px] truncate opacity-60" title="${esc(r.catatan)}">${esc(r.catatan)||'-'}</td>${adm?`<td class="p-2"><button class="btn-icon !w-6 !h-6" onclick="openForm('${esc(r.id)}')">‚úé</button> <button class="btn-icon !w-6 !h-6" onclick="del('${esc(r.id)}')">‚úï</button></td>`:''}</tr>`; }).join('');
+  // mobile cards - expanded with cadence, vo2, stride, catatan to fill space
+  const cardsEl=$('tbCards'); if(cardsEl){ cardsEl.innerHTML = a.map(r=>{ const ci=catInfo(r.kategori); const cad=num(r.cadence); const vo2=num(r.vo2); const str=num(r.stride); const note=(r.catatan||'').trim(); return `<div class="card p-2.5 space-y-1.5"><div class="flex items-center justify-between"><div class="flex items-center gap-2"><span class="text-[11px] font-medium mono cursor-pointer underline decoration-dotted underline-offset-2" onclick="openShare('${esc(r.id)}')">${esc(r.tanggal)}</span><span class="badge !text-[9px]" style="background:${ci.bg};color:${ci.text};border-color:${ci.border}"><span style="width:5px;height:5px;border-radius:999px;background:${ci.dot};display:inline-block"></span>${esc(ci.label)}</span></div><span class="text-[12px] font-bold mono">${esc(r.jarak)} km</span></div><div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] mono opacity-70 leading-tight"><span>${esc(fT(r.waktu))}</span><span class="opacity-30">‚Ä¢</span><span>${esc(r.pace)}/km</span><span class="opacity-30">‚Ä¢</span><span>HR ${num(r.hr)||'-'}</span>${cad?`<span class="opacity-30">‚Ä¢</span><span>CAD ${cad}</span>`:''}${vo2?`<span class="opacity-30">‚Ä¢</span><span>VO2 ${vo2}</span>`:''}${str?`<span class="opacity-30">‚Ä¢</span><span>STR ${str}</span>`:''}${note?`<span class="opacity-30">‚Ä¢</span><span class="opacity-90 truncate max-w-[120px]">${esc(note)}</span>`:''}</div>${adm?`<div class="flex gap-1 justify-end pt-1"><button class="btn !h-6 !text-[10px]" onclick="openForm('${esc(r.id)}')">Edit</button><button class="btn !h-6 !text-[10px]" onclick="del('${esc(r.id)}')">Hapus</button></div>`:''}</div>`; }).join('') || '<div class="text-center p-4 opacity-40 text-[11px]">Belum ada aktivitas</div>'; }
 }
-
 function render(){
   const f=filtered(); S.f=f;
   const avg=k=>{ const v=f.map(r=>num(r[k])).filter(x=>x>0); return v.length?(v.reduce((a,b)=>a+b)/v.length).toFixed(1):'0'; };
@@ -296,22 +253,22 @@ function render(){
   const isDark=document.documentElement.classList.contains('dark');
   const grads={jarak:'linear-gradient(135deg,#D6FF57,#84CC16)', pace:'linear-gradient(135deg,#22D3EE,#0891B2)', hr:'linear-gradient(135deg,#FBBF24,#D97706)', cad:'linear-gradient(135deg,#A78BFA,#7C3AED)', streak:'linear-gradient(135deg,#FB923C,#EF4444)', vo2:'linear-gradient(135deg,#F472B6,#DB2777)'};
   $('stats').innerHTML = [
-    {l:'Total', v:`${f.reduce((a,r)=>a+num(r.jarak),0).toFixed(1)} km`, s:`${f.length} sesi`, g:grads.jarak, ic:''},
-    {l:'Tercepat', v:esc(pc[0]||'-'), s:'/km', g:grads.pace, ic:''},
-    {l:'HR/Cad', v:`${avg('hr')}/${avg('cadence')}`, s:'avg', g:grads.hr, ic:''},
-    {l:'VO2Max', v:avg('vo2'), s:'ml/kg', g:grads.vo2, ic:''},
-    {l:'Streak', v:`${streak()} hari`, s:'berturut', g:grads.streak, ic:''},
-    {l:`Target ï ${tlab}`, v:`${bm.toFixed(1)}/${S.target} km`, s:`${pct.toFixed(0)}%${isAdm?' ï tap edit':''}`, g:grads.jarak, ic:'', prog:pct, tap:true}
+    {l:'Total', v:`${f.reduce((a,r)=>a+num(r.jarak),0).toFixed(1)} km`, s:`${f.length} sesi`, g:grads.jarak, ic:'‚óß'},
+    {l:'Tercepat', v:esc(pc[0]||'-'), s:'/km', g:grads.pace, ic:'‚ö°'},
+    {l:'HR/Cad', v:`${avg('hr')}/${avg('cadence')}`, s:'avg', g:grads.hr, ic:'‚ô•'},
+    {l:'VO2Max', v:avg('vo2'), s:'ml/kg', g:grads.vo2, ic:'‚óç'},
+    {l:'Streak', v:`${streak()} hari`, s:'berturut', g:grads.streak, ic:'üî•'},
+    {l:`Target ‚Ä¢ ${tlab}`, v:`${bm.toFixed(1)}/${S.target} km`, s:`${pct.toFixed(0)}%${isAdm?' ‚Ä¢ tap edit':''}`, g:grads.jarak, ic:'‚óé', prog:pct, tap:true}
   ].map(o=>`<div class="card p-2.5 flex gap-2.5 items-start${o.tap&&isAdm?' cursor-pointer':''}"${o.tap&&isAdm?' onclick="setTarget()"':''}><div class="icon-grad shrink-0" style="background:${o.g}">${o.ic}</div><div class="min-w-0"><div class="text-[9px] uppercase tracking-widest opacity-50 font-semibold">${o.l}</div><div class="text-[13px] font-bold mono leading-tight mt-0.5">${o.v}</div><div class="text-[10px] opacity-50">${o.s}</div>${o.prog!==undefined?`<div class="w-full h-1 rounded-full bg-[var(--border)] mt-2 overflow-hidden"><div class="h-full rounded-full" style="width:${o.prog}%;background:var(--lime)"></div></div>`:''}</div></div>`).join('');
 
   const PB=[['1K',.9,1.1],['5K',4.9,5.5],['10K',9.5,10.5],['Half',20.5,21.5]];
-  $('pb').innerHTML = PB.map(([l,a,b])=>{ const s=S.rows.filter(r=>num(r.jarak)>=a&&num(r.jarak)<=b).sort((x,y)=>sec(x.waktu)-sec(y.waktu))[0]; const has=!!s; return `<div class="card p-2.5 ${has?'!border-[var(--border-strong)]':''}"><div class="flex items-center justify-between"><div class="text-[9px] font-bold tracking-widest uppercase opacity-60">PB ${l}</div>${has?'<span class="text-[8px] px-1 py-0.5 rounded-full bg-amber-400/15 text-amber-500 font-bold">REC</span>':''}</div><div class="text-[15px] font-bold mono mt-1">${s?esc(fT(s.waktu)):'ó:ó'}</div><div class="text-[10px] opacity-60 mono mt-0.5">${s?esc(s.pace)+' ï '+esc(s.jarak)+'km':'ó'}</div><div class="text-[9px] opacity-40 mt-1">${s?esc(s.tanggal):'Belum ada'}</div></div>`; }).join('');
+  $('pb').innerHTML = PB.map(([l,a,b])=>{ const s=S.rows.filter(r=>num(r.jarak)>=a&&num(r.jarak)<=b).sort((x,y)=>sec(x.waktu)-sec(y.waktu))[0]; const has=!!s; return `<div class="card p-2.5 ${has?'!border-[var(--border-strong)]':''}"><div class="flex items-center justify-between"><div class="text-[9px] font-bold tracking-widest uppercase opacity-60">PB ${l}</div>${has?'<span class="text-[8px] px-1 py-0.5 rounded-full bg-amber-400/15 text-amber-500 font-bold">REC</span>':''}</div><div class="text-[15px] font-bold mono mt-1">${s?esc(fT(s.waktu)):'‚Äî:‚Äî'}</div><div class="text-[10px] opacity-60 mono mt-0.5">${s?esc(s.pace)+' ‚Ä¢ '+esc(s.jarak)+'km':'‚Äî'}</div><div class="text-[9px] opacity-40 mt-1">${s?esc(s.tanggal):'Belum ada'}</div></div>`; }).join('');
 
   renderTable();
   $('pbh').innerHTML = S.rows.filter(r=>/pb/i.test(r.kategori)).sort((a,b)=>(+b.d||0)-(+a.d||0)).map(r=>`<tr class="border-t" style="border-color:var(--border)"><td class="p-2">${esc(r.tanggal)}</td><td class="p-2 mono font-bold">${esc(r.jarak)} km</td><td class="p-2 mono">${esc(fT(r.waktu))}</td><td class="p-2 mono">${esc(r.pace)}</td></tr>`).join('') || '<tr><td colspan="4" class="p-3 text-center opacity-40 text-[11px]">Belum ada PB</td></tr>';
 
   const kc={}; f.forEach(r=>{ const k=(r.kategori||'').trim()||'Lainnya'; kc[k]=(kc[k]||0)+1; });
-  $('kat').innerHTML = '<div class="text-[10px] font-bold tracking-widest uppercase opacity-50 mb-2">Kategori</div>' + (Object.entries(kc).sort((a,b)=>b[1]-a[1]).map(([k,v])=>{ const ci=catInfo(k); const pct=v/f.length*100; return `<div class="mb-2"><div class="flex justify-between text-[11px]"><span class="flex items-center gap-1.5"><span style="width:6px;height:6px;border-radius:999px;background:${ci.dot};display:inline-block"></span>${esc(k)}</span><span class="opacity-60 mono text-[10px]">${v}◊ ${pct.toFixed(0)}%</span></div><div class="w-full h-1 rounded-full bg-[var(--border)] mt-1 overflow-hidden"><div class="h-full rounded-full" style="width:${pct}%;background:${ci.dot}"></div></div></div>`; }).join('') || '<div class="text-[11px] opacity-40">Belum ada data</div>');
+  $('kat').innerHTML = '<div class="text-[10px] font-bold tracking-widest uppercase opacity-50 mb-2">Kategori</div>' + (Object.entries(kc).sort((a,b)=>b[1]-a[1]).map(([k,v])=>{ const ci=catInfo(k); const pct=v/f.length*100; return `<div class="mb-2"><div class="flex justify-between text-[11px]"><span class="flex items-center gap-1.5"><span style="width:6px;height:6px;border-radius:999px;background:${ci.dot};display:inline-block"></span>${esc(k)}</span><span class="opacity-60 mono text-[10px]">${v}√ó ${pct.toFixed(0)}%</span></div><div class="w-full h-1 rounded-full bg-[var(--border)] mt-1 overflow-hidden"><div class="h-full rounded-full" style="width:${pct}%;background:${ci.dot}"></div></div></div>`; }).join('') || '<div class="text-[11px] opacity-40">Belum ada data</div>');
 
   S.charts.forEach(c=>{try{c.destroy()}catch{}}); if(!window.Chart) return;
   const L=f.map(r=>r.tanggal); const gridColor=isDark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.06)'; const tickColor=isDark?'#9F9FA9':'#71717A'; const ax={ticks:{color:tickColor,font:{size:8}},grid:{color:gridColor},border:{display:false}}; const base={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}};
@@ -319,17 +276,15 @@ function render(){
   const ag={}; S.rows.forEach(r=>{ if(r.d){ const k=r.d.getFullYear()+'-'+String(r.d.getMonth()+1).padStart(2,'0'); ag[k]=(ag[k]||0)+num(r.jarak); } }); const ks=Object.keys(ag).sort();
   S.charts=[ line('c1', f.map(r=>num(r.jarak)), '#84CC16'), line('c2', f.map(r=>sec(r.pace)/60), '#06B6D4', true), line('c3', f.map(r=>num(r.hr)), '#F59E0B'), line('c4', f.map(r=>num(r.cadence)), '#8B5CF6'), new Chart($('c5'),{type:'bar',data:{labels:ks.map(k=>MID[+k.slice(5)-1]+' '+k.slice(0,4)),datasets:[{data:ks.map(k=>+ag[k].toFixed(1)),backgroundColor:'#84CC16',borderRadius:6,barThickness:14}]},options:{...base,scales:{x:ax,y:ax}}}) ];
 }
-
-function openForm(id, pre){ S.editId=id||null; const r=id?S.rows.find(x=>x.id===id):(pre||{}); const n=new Date(); $('mt').textContent=id?'Edit data':'Tambah data';$('ff').innerHTML=F.map(([k,l])=>`<div class="${k==='catatan'?'col-span-2':''}"><label class="text-[9px] uppercase opacity-50 font-semibold">${l}</label><input id="f_${k}" class="input h-8 mt-1" value="${esc(r[k]??(k==='tanggal'?n.getDate()+' '+MID[n.getMonth()]+' '+n.getFullYear():''))}"></div>`).join('')+'<datalist id="kt"><option>Regular<option>Easy Run<option>Fast Run<option>Long Run<option>Tempo Run<option>Interval<option>PB </datalist>'; $('modal').classList.remove('hidden'); }
-async function save(){ const o={}; for(const k in H) o[k]=$('f_'+k).value.trim(); if(!o.tanggal\vert{}\vert{}!o.jarak\vert{}\vert{}!o.waktu\vert{}\vert{}!o.pace) return alert('Tanggal, jarak, waktu, pace wajib');$('sv').disabled=true; try{ if(S.editId) await api('update',{id:S.editId,row:toRow(o)}); else await api('add',{row:toRow(o)}); $('modal').classList.add('hidden'); await load(); }catch(e){ alert(e.message);}$('sv').disabled=false; }
+function openForm(id, pre){ S.editId=id||null; const r=id?S.rows.find(x=>x.id===id):(pre||{}); const n=new Date(); $('mt').textContent=id?'Edit data':'Tambah data'; $('ff').innerHTML=F.map(([k,l])=>`<div class="${k==='catatan'?'col-span-2':''}"><label class="text-[9px] uppercase opacity-50 font-semibold">${l}</label><input id="f_${k}" class="input h-8 mt-1" value="${esc(r[k]??(k==='tanggal'?n.getDate()+' '+MID[n.getMonth()]+' '+n.getFullYear():''))}"></div>`).join('')+'<datalist id="kt"><option>Regular<option>Easy Run<option>Fast Run<option>Long Run<option>Tempo Run<option>Interval<option>PB üèÜ</datalist>'; $('modal').classList.remove('hidden'); }
+async function save(){ const o={}; for(const k in H) o[k]=$('f_'+k).value.trim(); if(!o.tanggal||!o.jarak||!o.waktu||!o.pace) return alert('Tanggal, jarak, waktu, pace wajib'); $('sv').disabled=true; try{ if(S.editId) await api('update',{id:S.editId,row:toRow(o)}); else await api('add',{row:toRow(o)}); $('modal').classList.add('hidden'); await load(); }catch(e){ alert(e.message);} $('sv').disabled=false; }
 async function del(id){ if(!confirm('Hapus?')) return; try{ await api('delete',{id}); await load(); }catch(e){ alert(e.message);} }
-function auto(){ const k=$('kal').value.toLowerCase(), m=re=>(k.match(re)||[])[1]; const kt=[['pb','PB '],['interval','Interval'],['easy','Easy Run'],['long','Long Run'],['tempo','Tempo Run'],['fast','Fast Run']].find(([a])=>k.includes(a)); let tgl=m(/(\d{1,2}\s+[a-z]+(?:\s+\d{4})?)/); if(tgl){ tgl=tgl.replace(/\b[a-z]/g,c=>c.toUpperCase()); if(!/\d{4}/.test(tgl)) tgl+=' '+new Date().getFullYear(); } openForm(null,{tanggal:tgl,kategori:kt?kt[1]:'Regular',jarak:(m(/(\d+[.,]?\d*)\s*km/)||'5').replace(',','.'),waktu:m(/(\d+:\d+(?::\d+)?)/)||'30:00',pace:m(/pace\s*[:=]?\s*(\d+:\d+)/)||'6:30',hr:m(/hr\s*[:=]?\s*(\d+)/)||'',cadence:m(/(?:cadence|cad)\s*[:=]?\s*(\d+)/)||'',vo2:(m(/vo2\s*(?:max)?\s*[:=]?\s*(\d+[.,]?\d*)/)||'').replace(',','.'),stride:m(/stride\s*[:=]?\s*(\d+)/)||''}); }
+function auto(){ const k=$('kal').value.toLowerCase(), m=re=>(k.match(re)||[])[1]; const kt=[['pb','PB üèÜ'],['interval','Interval'],['easy','Easy Run'],['long','Long Run'],['tempo','Tempo Run'],['fast','Fast Run']].find(([a])=>k.includes(a)); let tgl=m(/(\d{1,2}\s+[a-z]+(?:\s+\d{4})?)/); if(tgl){ tgl=tgl.replace(/\b[a-z]/g,c=>c.toUpperCase()); if(!/\d{4}/.test(tgl)) tgl+=' '+new Date().getFullYear(); } openForm(null,{tanggal:tgl,kategori:kt?kt[1]:'Regular',jarak:(m(/(\d+[.,]?\d*)\s*km/)||'5').replace(',','.'),waktu:m(/(\d+:\d+(?::\d+)?)/)||'30:00',pace:m(/pace\s*[:=]?\s*(\d+:\d+)/)||'6:30',hr:m(/hr\s*[:=]?\s*(\d+)/)||'',cadence:m(/(?:cadence|cad)\s*[:=]?\s*(\d+)/)||'',vo2:(m(/vo2\s*(?:max)?\s*[:=]?\s*(\d+[.,]?\d*)/)||'').replace(',','.'),stride:m(/stride\s*[:=]?\s*(\d+)/)||''}); }
 const dl=(name,txt,type)=>{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([txt],{type})); a.download=name; a.click(); };
 function expCsv(){ const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"'; const hd=['No','Tanggal','Kategori','Jarak (km)','Waktu','Pace','HR','Cadence','VO2 Max','Stride','Catatan']; dl('running_log_export.csv','\ufeff'+[hd.map(q).join(','),...S.rows.map(r=>[r.no,r.tanggal,r.kategori,r.jarak,r.waktu,r.pace,r.hr,r.cadence,r.vo2,r.stride,r.catatan].map(q).join(','))].join('\n'),'text/csv'); }
 function expJson(){ dl('running_log.json', JSON.stringify(S.rows.map(r=>({no:r.no,tanggal:r.tanggal,kategori:r.kategori,jarak:num(r.jarak),waktu:r.waktu,pace:r.pace,hr:num(r.hr)|0,cadence:num(r.cadence)|0,vo2:num(r.vo2),stride:num(r.stride)|0,catatan:r.catatan})),null,4),'application/json'); }
-
-(function(){ const saved=localStorage.getItem('theme')||'dark'; document.documentElement.classList.remove('dark','light'); document.documentElement.classList.add(saved); const btn=$('themeToggle'); if(btn){ btn.textContent=saved==='dark'?'':''; btn.onclick=()=>{ const cur=document.documentElement.classList.contains('dark')?'dark':'light'; const next=cur==='dark'?'light':'dark'; document.documentElement.classList.remove('dark','light'); document.documentElement.classList.add(next); localStorage.setItem('theme',next); btn.textContent=next==='dark'?'':''; setTimeout(render,50); }; } })();
-$('go').onclick=async()=>{ $('err').textContent='';$('go').disabled=true; try{ const j=await api('login',{password:$('pw').value}); S.token=j.token; S.role=j.role; try{ localStorage.setItem('tk',S.token); localStorage.setItem('rl',S.role);}catch(e){}$('pw').value=''; show(); }catch(e){ $('err').textContent=e.message; }$('go').disabled=false; };
+(function(){ const saved=localStorage.getItem('theme')||'dark'; document.documentElement.classList.remove('dark','light'); document.documentElement.classList.add(saved); const btn=$('themeToggle'); if(btn){ btn.textContent=saved==='dark'?'‚òÄÔ∏è':'üåô'; btn.onclick=()=>{ const cur=document.documentElement.classList.contains('dark')?'dark':'light'; const next=cur==='dark'?'light':'dark'; document.documentElement.classList.remove('dark','light'); document.documentElement.classList.add(next); localStorage.setItem('theme',next); btn.textContent=next==='dark'?'‚òÄÔ∏è':'üåô'; setTimeout(render,50); }; } })();
+$('go').onclick=async()=>{ $('err').textContent=''; $('go').disabled=true; try{ const j=await api('login',{password:$('pw').value}); S.token=j.token; S.role=j.role; try{ localStorage.setItem('tk',S.token); localStorage.setItem('rl',S.role);}catch(e){} $('pw').value=''; show(); }catch(e){ $('err').textContent=e.message; } $('go').disabled=false; };
 $('pw').onkeydown=e=>e.key==='Enter'&&$('go').click(); $('fd').onchange=$('ft').onchange=render; show();
 </script>
 </body>
